@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Examen Prácticas Tuteladas — Farmacia UCM</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F5F0;
+    --surface: #FFFFFF;
+    --surface2: #F0EDE6;
+    --border: #E2DDD4;
+    --border2: #C8C2B6;
+    --text: #1A1814;
+    --text2: #6B6559;
+    --text3: #9C9489;
+    --accent: #2D5A3D;
+    --accent-light: #EAF2EC;
+    --accent-mid: #4A8C5E;
+    --danger: #8B2020;
+    --danger-light: #FDF0EF;
+    --warn: #7A4F1A;
+    --warn-light: #FDF6EE;
+    --tag-bg: #E8E2D9;
+    --tag-text: #4A4338;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow: 0 2px 12px rgba(26,24,20,0.08);
+    --shadow-lg: 0 8px 32px rgba(26,24,20,0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ─── HEADER ─── */
+  .site-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow);
+  }
+
+  .header-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    gap: 1rem;
+  }
+
+  .header-brand {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .header-brand .pill {
+    background: var(--accent);
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 99px;
+  }
+
+  .header-brand h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    color: var(--text);
+    font-weight: 400;
+  }
+
+  .header-stats {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .hstat {
+    text-align: center;
+  }
+
+  .hstat-val {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.1;
+  }
+
+  .hstat-val.ok { color: var(--accent); }
+  .hstat-val.ko { color: var(--danger); }
+  .hstat-val.pct { color: var(--text); }
+
+  .hstat-lbl {
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    display: block;
+  }
+
+  /* ─── PROGRESS ─── */
+  .progress-track {
+    height: 3px;
+    background: var(--border);
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-mid), var(--accent));
+    transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  /* ─── MAIN ─── */
+  .main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 4rem;
+  }
+
+  /* ─── TOOLBAR ─── */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .toolbar-label {
+    font-size: 12px;
+    color: var(--text3);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-right: 2px;
+  }
+
+  .select-wrap {
+    position: relative;
+  }
+
+  .select-wrap::after {
+    content: '▾';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text3);
+    font-size: 12px;
+    pointer-events: none;
+  }
+
+  select {
+    appearance: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 7px 32px 7px 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+
+  select:hover { border-color: var(--border2); }
+  select:focus { outline: none; border-color: var(--accent-mid); }
+
+  .btn-ghost {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 7px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--border2);
+    color: var(--text);
+    background: var(--surface2);
+  }
+
+  .ml-auto { margin-left: auto; }
+
+  /* ─── QUESTION CARD ─── */
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem 2.2rem;
+    box-shadow: var(--shadow);
+    animation: fadeUp 0.25s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .q-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 1.2rem;
+  }
+
+  .q-num {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .q-dot {
+    width: 3px;
+    height: 3px;
+    background: var(--border2);
+    border-radius: 50%;
+  }
+
+  .q-tag {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--tag-text);
+    background: var(--tag-bg);
+    padding: 3px 10px;
+    border-radius: 99px;
+    letter-spacing: 0.03em;
+  }
+
+  .q-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: 19px;
+    color: var(--text);
+    line-height: 1.45;
+    margin-bottom: 1.8rem;
+    font-weight: 400;
+  }
+
+  /* ─── OPTIONS ─── */
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 0;
+  }
+
+  .opt-btn {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    text-align: left;
+    padding: 13px 16px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    width: 100%;
+  }
+
+  .opt-btn:hover:not(:disabled) {
+    border-color: var(--accent-mid);
+    background: var(--accent-light);
+    transform: translateX(2px);
+  }
+
+  .opt-btn:disabled { cursor: default; }
+
+  .opt-letter {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text3);
+    text-transform: uppercase;
+    transition: all 0.15s;
+    margin-top: 1px;
+  }
+
+  .opt-btn.correct {
+    border-color: var(--accent);
+    background: var(--accent-light);
+    color: var(--accent);
+  }
+
+  .opt-btn.correct .opt-letter {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+
+  .opt-btn.wrong {
+    border-color: var(--danger);
+    background: var(--danger-light);
+    color: var(--danger);
+  }
+
+  .opt-btn.wrong .opt-letter {
+    background: var(--danger);
+    border-color: var(--danger);
+    color: white;
+  }
+
+  /* ─── FEEDBACK ─── */
+  .feedback {
+    margin-top: 1.4rem;
+    padding: 1rem 1.2rem;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    line-height: 1.6;
+    animation: fadeUp 0.2s ease both;
+  }
+
+  .feedback.ok {
+    background: var(--accent-light);
+    border: 1px solid #B8D4BF;
+    color: #1E4A2C;
+  }
+
+  .feedback.ko {
+    background: var(--danger-light);
+    border: 1px solid #DEB8B8;
+    color: #5C1A1A;
+  }
+
+  .feedback-title {
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .feedback.ok .feedback-title { color: var(--accent); }
+  .feedback.ko .feedback-title { color: var(--danger); }
+
+  /* ─── NAVIGATION ─── */
+  .nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1.8rem;
+    gap: 12px;
+  }
+
+  .nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .nav-btn:hover:not(:disabled) {
+    border-color: var(--border2);
+    color: var(--text);
+    background: var(--surface2);
+  }
+
+  .nav-btn:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+
+  .nav-btn.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+
+  .nav-btn.primary:hover:not(:disabled) {
+    background: #234D32;
+    border-color: #234D32;
+    color: white;
+  }
+
+  .nav-pos {
+    font-size: 13px;
+    color: var(--text3);
+    font-weight: 500;
+    text-align: center;
+    min-width: 80px;
+  }
+
+  /* ─── EMPTY ─── */
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text3);
+  }
+
+  .empty-state svg {
+    margin: 0 auto 1rem;
+    display: block;
+    opacity: 0.4;
+  }
+
+  .empty-state p {
+    font-size: 15px;
+  }
+
+  /* ─── FINISH SCREEN ─── */
+  .finish-screen {
+    text-align: center;
+    padding: 3rem 2rem;
+    animation: fadeUp 0.3s ease both;
+  }
+
+  .finish-icon {
+    font-size: 56px;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .finish-score {
+    font-family: 'DM Serif Display', serif;
+    font-size: 64px;
+    color: var(--accent);
+    line-height: 1;
+    margin: 0.5rem 0;
+  }
+
+  .finish-label {
+    font-size: 16px;
+    color: var(--text2);
+    margin-bottom: 2rem;
+  }
+
+  /* ─── DECORATIVE ─── */
+  .deco-header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border);
+    display: none;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 600px) {
+    .header-inner { padding: 0 1rem; }
+    .header-stats { gap: 14px; }
+    .hstat-val { font-size: 16px; }
+    .main { padding: 1.5rem 1rem 3rem; }
+    .q-card { padding: 1.4rem 1.2rem; }
+    .q-text { font-size: 17px; }
+    .toolbar { gap: 8px; }
+  }
+
+  /* ─── TEMA BADGES COLORS ─── */
+  .tag-Formulación { background: #E8F0E8; color: #2D5A3D; }
+  .tag-Fitoterapia { background: #E8F5E0; color: #3A5E1E; }
+  .tag-Indicación { background: #EAF2FF; color: #1A4A8A; }
+  .tag-Recetas { background: #F5EDE8; color: #7A3A1E; }
+  .tag-Farmacología { background: #EDE8F5; color: #4A2A8A; }
+  .tag-Gestión { background: #F5F0E8; color: #7A5E1E; }
+  .tag-Dispositivos { background: #E8F5F5; color: #1E5E5E; }
+  .tag-Atención { background: #F5E8EE; color: #8A1A4A; }
+  .tag-Estupef { background: #F5E8E8; color: #8A1A1A; }
+  .tag-Nutrición { background: #EEF5E8; color: #3A6A1E; }
+  .tag-Investig { background: #F0EAF5; color: #5A2A8A; }
+  .tag-Hospital { background: #E8EAF5; color: #2A3A8A; }
+  .tag-Comunic { background: #F5EBE8; color: #8A3A2A; }
+  .tag-Diabetes { background: #FBF5E8; color: #8A5A1E; }
+  .tag-Vacunac { background: #E8F5F0; color: #1E6A4A; }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 99px; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-brand">
+      <span class="pill">UCM</span>
+      <h1>Prácticas Tuteladas &mdash; Farmacia</h1>
+    </div>
+    <div class="header-stats">
+      <div class="hstat"><span class="hstat-val ok" id="hs-ok">0</span><span class="hstat-lbl">Correctas</span></div>
+      <div class="hstat"><span class="hstat-val ko" id="hs-ko">0</span><span class="hstat-lbl">Incorrectas</span></div>
+      <div class="hstat"><span class="hstat-val pct" id="hs-pct">—</span><span class="hstat-lbl">Acierto</span></div>
+    </div>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="prog" style="width:0%"></div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <span class="toolbar-label">Tema</span>
+    <div class="select-wrap">
+      <select id="topic-sel"></select>
+    </div>
+    <button class="btn-ghost" id="btn-shuffle">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+      Aleatorio
+    </button>
+    <button class="btn-ghost ml-auto" id="btn-reset">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.85"/></svg>
+      Reiniciar
+    </button>
+  </div>
+
+  <!-- QUESTION AREA -->
+  <div id="qa"></div>
+
+  <!-- NAV -->
+  <div class="nav-bar" id="nav-bar">
+    <button class="nav-btn" id="btn-prev" disabled>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Anterior
+    </button>
+    <span class="nav-pos" id="nav-pos"></span>
+    <button class="nav-btn primary" id="btn-next">
+      Siguiente
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+
+</main>
+
+<script>
+const QUESTIONS = [
+{id:1,t:"Formulación Magistral",q:"¿Cómo se llama el documento en el que se anota toda la información que permita conocer cómo se efectuó una fórmula magistral?",o:["Guía de Elaboración, Control y Registro","Boletín de análisis","Procedimiento Normalizado de Trabajo","Monografía"],a:0,e:"La Guía de Elaboración, Control y Registro recoge todo el proceso de elaboración: materias primas, método, controles y resultados. Es el documento obligatorio de trazabilidad de cada fórmula magistral."},
+{id:2,t:"Fitoterapia",q:"¿Cuál de estas plantas puede ser utilizada para el tratamiento de la tos?",o:["Garcinia L.","Cynara scolymus L. (Alcachofa)","Fucus spp. L.","Thymus vulgaris L. (Tomillo)"],a:3,e:"El Thymus vulgaris (tomillo) tiene propiedades expectorantes y antitusivas. Garcinia y Fucus se usan para el control del peso, y la alcachofa tiene acción digestiva y hepática."},
+{id:3,t:"Formulación Magistral",q:"¿Cuál de estos libros no es de tenencia obligatoria en Oficinas de Farmacia elaboradoras de fórmulas magistrales (en papel o vía internet)?",o:["Libro de contabilidad de estupefacientes","Farmacopea Española","Formulario Nacional","Catálogo de Especialidades del CGCOF"],a:3,e:"El Catálogo de Especialidades del CGCOF no es obligatorio para elaboradoras de fórmulas magistrales. Sí lo son la Farmacopea Española, el Formulario Nacional y el libro de contabilidad de estupefacientes."},
+{id:4,t:"Indicación Farmacéutica",q:"¿Cuál de estos síntomas NO es característico del resfriado y SÍ de la gripe?",o:["Tos productiva","Inicio paulatino de la enfermedad","Periodo de incubación 48-72h","Fiebre"],a:3,e:"La fiebre elevada es característica de la gripe, no del resfriado. El resfriado cursa con inicio paulatino, tos productiva y sin fiebre o con febrícula leve."},
+{id:5,t:"Farmacovigilancia",q:"¿Cuál de las siguientes reacciones adversas debemos comunicar a Farmacovigilancia?",o:["Diarrea moderada sin fiebre 3 días por amoxicilina/ác. clavulánico","Hemorragia nasal pasajera por uso continuado de ácido acetilsalicílico","Visita a Urgencias por problemas respiratorios graves tras la 1.ª dosis de amoxicilina","Aparición de tos persistente en tratamiento con enalapril"],a:2,e:"Debe notificarse toda RAM grave o inesperada. Una visita a Urgencias por problemas respiratorios tras la 1.ª dosis de amoxicilina es grave e inesperada. La tos con IECAs y la diarrea con amoxicilina son reacciones conocidas y leves."},
+{id:6,t:"Atención Farmacéutica",q:"¿Cuál de las siguientes respuestas NO es objetivo de la Dispensación según Foro?",o:["Proteger al paciente frente a resultados negativos de la medicación (RNM)","Asegurarnos de que el paciente conoce el uso del medicamento","Hacer un diagnóstico de la patología del paciente","Garantizar el acceso al medicamento"],a:2,e:"El diagnóstico de la patología es función médica, no farmacéutica. Los objetivos de la dispensación son: garantizar acceso al medicamento, asegurar su uso correcto y proteger frente a RNM."},
+{id:7,t:"Diabetes y valores",q:"¿Cuál es el objetivo de HbA1c a conseguir para un diabético DM2 con expectativa de vida larga?",o:["7","8","6-6,5","7-8"],a:2,e:"Para diabético tipo 2 con larga expectativa de vida el objetivo de HbA1c es 6-6,5%, para minimizar las complicaciones microvasculares a largo plazo."},
+{id:8,t:"Formulación Magistral",q:"¿Cuáles son las Fórmulas Magistrales Tipificadas?",o:["Las que están descritas en el Formulario Nacional","Las que ya están valoradas","Las que están descritas en la Real Farmacopea Española","Las que son fáciles de formular"],a:0,e:"Las FMT son aquellas cuya fórmula, indicación y pauta posológica están recogidas en el Formulario Nacional."},
+{id:9,t:"Recetas",q:"¿Cuánto tiempo hay que conservar la receta de una Fórmula Magistral de veterinaria?",o:["6 meses","5 años","3 meses","1 año"],a:1,e:"Las recetas de fórmulas magistrales veterinarias deben conservarse durante 5 años en la oficina de farmacia."},
+{id:10,t:"Dispositivos inhalación",q:"¿En qué tipo de pacientes es mejor utilizar un nebulizador que otro dispositivo de inhalación?",o:["Cualquier paciente","Paciente con flujo inspiratorio mayor de 30 L/min","Paciente con flujo inspiratorio menor de 20 L/min","Paciente con flujo inspiratorio mayor de 60 L/min"],a:2,e:"El nebulizador es el dispositivo de elección en pacientes con flujo inspiratorio muy bajo (<20 L/min), como niños, ancianos o pacientes en crisis grave, ya que no requiere coordinación ni esfuerzo inspiratorio."},
+{id:11,t:"Recetas",q:"¿Frente a qué medicamento NO es necesario presentar receta médica?",o:["Voltaren 50 mg","Ibudol 400 mg","Adiro 100 mg","Enema Casen 250 ml"],a:1,e:"El Ibudol 400 mg (ibuprofeno) es OTC y no requiere receta. Voltaren 50 mg, Adiro 100 mg y Enema Casen sí la requieren."},
+{id:12,t:"Indicación Farmacéutica",q:"¿Qué corticoide recomendarías a un paciente atópico con eccemas detrás de las rodillas?",o:["Clobetasol 0,5 mg/g (Clovate)","Metilprednisolona 1 mg/g (Lexxema)","Betametasona 0,5 mg/g (Diproderm)","Hidrocortisona 5 mg/g (Calmiox)"],a:3,e:"Los pliegues (corvas, axilas) tienen piel fina que absorbe más el corticoide, por lo que se usan corticoides de baja potencia como Hidrocortisona 5 mg/g para evitar atrofia cutánea."},
+{id:13,t:"Formulación Magistral",q:"¿Qué documento se tiene que guardar 3 meses al realizar una fórmula magistral?",o:["El PNT de elaboración","La receta médica","La valoración económica de la fórmula","La Guía de Elaboración"],a:1,e:"La receta médica original debe conservarse en la farmacia durante 3 meses tras la elaboración de una fórmula magistral."},
+{id:14,t:"Indicación Farmacéutica",q:"¿Qué le recomendarías a un paciente de 25 años sin patologías previas con tos productiva?",o:["Codeína 28,7 mg: 1 comprimido cada 6 h","Dextrometorfano 15 mg: 2 comprimidos cada 8 h","Derivar al médico","Acetilcisteína 600 mg (Fluimucil): 1 comprimido al día"],a:3,e:"La tos productiva indica secreciones que el organismo quiere expulsar. Se usa un mucolítico como Acetilcisteína 600 mg. Los antitusivos están contraindicados en tos productiva."},
+{id:15,t:"Indicación Farmacéutica",q:"¿Qué le recomendarías a un paciente de 4 años con malestar, estornudos, congestión nasal y lagrimeo?",o:["Ebastina 10 mg y Pseudoefedrina 120 mg (Rinoebastel): 1 cápsula/día 7 días","Ibuprofeno (Arginina) 400 mg: 1 comprimido cada 6-8 h","Azitromicina 500 mg: 1 comprimido cada 24 h durante 3 días","Paracetamol 650 mg, Fenilefrina 15,58 mg y Clorfenamina 4 mg (Termalgin gripe): 1 sobre cada 8 h"],a:3,e:"Un niño de 4 años con síntomas catarrales puede tratarse con una combinación analgésico-vasoconstrictor-antihistamínico como Termalgin gripe. La pseudoefedrina está contraindicada en menores de 12 años y la azitromicina requiere receta."},
+{id:16,t:"Indicación Farmacéutica",q:"¿Qué le recomendarías a un paciente que pide algo para estar tranquilo en la exposición de su tesis doctoral? (nerviosismo y taquicardia)",o:["Bromazepam 1,5 mg (Lexatin)","Doxilamina 25 mg (Dormidina)","Valeriana officinalis 100 mg, Passiflora incarnata 100 mg y Crataegus monogyna 100 mg (Enrelax)","Melatonina 1,95 mg (Aquilea Melatonina)"],a:2,e:"Para ansiedad situacional sin patología previa se recomienda fitoterapia ansiolítica suave como valeriana, pasiflora y espino blanco. El bromazepam requiere receta y la doxilamina es un hipnótico."},
+{id:17,t:"Indicación Farmacéutica",q:"¿Qué le recomendarías a un paciente sin patologías previas que refiere dolor de garganta e inflamación?",o:["Clorhexidina","Flurbiprofeno","Benzocaína","Dextrometorfano"],a:1,e:"El flurbiprofeno tiene acción analgésica y antiinflamatoria local, indicado en dolor e inflamación de garganta. La clorhexidina es antiséptica, la benzocaína anestésico local y el dextrometorfano es antitusivo."},
+{id:18,t:"Indicación Farmacéutica",q:"¿Qué le recomendarías a una paciente de 50 años con ojo seco asociado a la menopausia?",o:["Un colirio con dexametasona 2 veces al día","Lavados con suero fisiológico 2-3 veces al día","Un colirio con ácido hialurónico (Hyabak) a demanda","Un colirio con tobramicina (Tobrex) 3 veces al día"],a:2,e:"El ojo seco por menopausia se trata con lágrimas artificiales. El ácido hialurónico (Hyabak) es un sustituto lagrimal eficaz que puede usarse a demanda. La dexametasona necesita prescripción y la tobramicina es antibiótico."},
+{id:19,t:"Formulación Magistral",q:"¿Qué tipo de IVA tienen las Fórmulas Magistrales?",o:["4 %","No se les aplica el IVA","21 %","10 %"],a:0,e:"Las fórmulas magistrales y preparados oficinales tributan al tipo superreducido del IVA: el 4 %."},
+{id:20,t:"Indicación Farmacéutica",q:"¿Qué vehículo es el más indicado para tratar los eczemas atópicos en los párpados?",o:["Ungüento","Crema","Emulsión","Loción"],a:2,e:"La emulsión es la más adecuada para el área periocular. El ungüento es muy oclusivo, la crema tiene conservantes irritantes para esa zona tan sensible y la loción es demasiado fluida."},
+{id:21,t:"Dispositivos inhalación",q:"¿Qué ventaja tiene el nuevo Spiriva Respimat frente al antiguo?",o:["Ninguna ventaja","Menor tamaño","Más económico","Menos residuo generado"],a:3,e:"El Spiriva Respimat produce menos residuo ambiental y propelentes, generando una nube más fina y lenta que mejora el depósito pulmonar."},
+{id:22,t:"Atención Farmacéutica",q:"Ante la demanda de un paciente de 'algo para su tos', ¿a qué servicio profesional asistencial derivarías?",o:["Dispensación","Indicación Farmacéutica","Seguimiento Farmacoterapéutico","Educación sanitaria"],a:1,e:"Cuando un paciente pide un producto para un síntoma sin diagnóstico previo, se activa el servicio de Indicación Farmacéutica."},
+{id:23,t:"Atención Farmacéutica",q:"¿Cuál de los siguientes es un RNM (Resultado Negativo de Medicación)?",o:["Inefectividad no cuantitativa","Administración errónea del medicamento","Incumplimiento terapéutico","Problema de salud insuficientemente tratado – medicamento no necesario"],a:0,e:"Los RNM son resultados en la salud no adecuados al objetivo de la farmacoterapia. La 'inefectividad no cuantitativa' es un RNM. La administración errónea y el incumplimiento son PRM (causas, no resultados)."},
+{id:24,t:"Formulación Magistral",q:"De las siguientes, indique cuál NO es una característica de la guía de elaboración y control:",o:["Incluir los datos identificativos de las materias primas","Estar descrita en el formulario nacional","Contener la fecha de elaboración de la fórmula","Contener el número de registro de la fórmula elaborada"],a:1,e:"La Guía de Elaboración no tiene por qué estar descrita en el Formulario Nacional (que es para FMT). Sí debe incluir datos de materias primas, fecha de elaboración y número de registro."},
+{id:25,t:"Recetas",q:"De los siguientes medicamentos, ¿cuál NO es susceptible de introducirse en un SPD?",o:["Atorvastatina","Tramadol","Enalapril","Cafinitrina"],a:3,e:"La Cafinitrina (nitroglicerina sublingual) no puede estar en un SPD porque es de uso en urgencias, sublingual, y requiere condiciones especiales de conservación."},
+{id:26,t:"Atención Farmacéutica",q:"De los servicios Profesionales Farmacéuticos Asistenciales de Farmacia Comunitaria, ¿cuál NO es un Servicio de Atención Farmacéutica?",o:["Indicación Farmacéutica","Educación Sanitaria","Conciliación de la medicación","Dispensación"],a:1,e:"La Educación Sanitaria es un servicio de salud pública, no de atención farmacéutica asistencial. Los de AF incluyen: dispensación, indicación, seguimiento y conciliación."},
+{id:27,t:"Comunicación",q:"Durante una entrevista de trabajo, ¿qué actitud NO es recomendable seguir ante una pregunta de tensión?",o:["Manejar asertivamente la situación","Contestar cordialmente","Aclarar por qué ese tipo de preguntas","Mantener una actitud reservada"],a:3,e:"Mantener una actitud reservada ante preguntas de tensión no es recomendable. Lo adecuado es manejar la situación asertivamente y contestar con seguridad."},
+{id:28,t:"Comunicación",q:"Durante una reclamación de un cliente, señale lo que NO es aconsejable hacer:",o:["Agradecer","Solicitar más información","Manifestar una actitud defensiva","Expresar acuerdo si está justificada"],a:2,e:"Manifestar una actitud defensiva agrava el conflicto y daña la relación con el paciente. Lo correcto es escuchar, agradecer, solicitar información y expresar acuerdo si la queja está justificada."},
+{id:29,t:"Gestión y precios",q:"El margen en Especialidades Farmacéuticas para la Oficina de Farmacia es del:",o:["25 % para productos con PVL mayor de 91,63 €","20 % para productos con PVL mayor de 91,63 €","27,9 % para productos con PVL mayor de 91,63 €","27,9 % para productos con PVL menor de 91,63 €"],a:3,e:"El margen oficial de la OF en especialidades farmacéuticas es del 27,9 % para productos con PVL ≤ 91,63 €."},
+{id:30,t:"Gestión y precios",q:"El PVF es:",o:["El precio máximo al que puede facturar la distribución","El precio de venta financiado","El precio de venta final","El precio de venta firme"],a:0,e:"El PVF (Precio de Venta al por mayor Farmacéutico) es el precio máximo al que puede facturar la distribución mayorista a las oficinas de farmacia."},
+{id:31,t:"Atención Farmacéutica",q:"El Seguimiento Farmacoterapéutico tiene como objetivo:",o:["Detectar PRM para la prevención de RNM","Garantizar el acceso del paciente a la medicación","Ofrecer al paciente otros servicios de Atención Farmacéutica","Fidelizar al paciente"],a:0,e:"El objetivo del SFT es detectar, prevenir y resolver los Problemas Relacionados con los Medicamentos (PRM) para prevenir los Resultados Negativos de la Medicación (RNM)."},
+{id:32,t:"Atención Farmacéutica",q:"El servicio de Dispensación dentro de la Atención Farmacéutica:",o:["Se refiere a medicamentos OTC de no prescripción médica obligatoria","Se refiere a medicamentos de prescripción médica","Se refiere a Productos Sanitarios","Se refiere a medicamentos de Especial Control Médico"],a:1,e:"La Dispensación dentro de la AF se refiere específicamente a medicamentos que requieren prescripción médica."},
+{id:33,t:"Indicación Farmacéutica",q:"¿En cuál de las siguientes situaciones se debe derivar al médico?",o:["Tos en anciano de un mes para la que ya hemos indicado varios medicamentos","Acné incipiente en adolescente","Dolor de garganta sin fiebre","Lagrimeo y congestión nasal en persona joven"],a:0,e:"Tos de un mes en anciano sin respuesta a tratamientos previos es síntoma de alarma que requiere evaluación médica urgente."},
+{id:34,t:"Gestión y precios",q:"En Especialidades Farmacéuticas, el PVP IVA está fijado:",o:["El PVP IVA se calcula con un margen comercial del 30 %","El PVP es un valor orientativo y se puede modificar","En realidad, se fija independientemente del PVL","A partir del PVL siguiendo márgenes regulados en cada eslabón de la cadena del medicamento"],a:3,e:"El PVP IVA está fijado por la administración a partir del PVL, aplicando márgenes regulados para el mayorista y la farmacia, más el IVA correspondiente."},
+{id:35,t:"Gestión y precios",q:"En lo referente a la velocidad de servicio:",o:["El pedido directo es siempre más lento por depender del mayorista","El transfer es el más rápido, llega de mañana el pedido de la noche anterior","El pedido directo tiene velocidad mayor que el pedido de línea","El pedido de línea es el más rápido, llegando en horas a la OF"],a:3,e:"El pedido de línea (al mayorista local) es el más rápido, pudiendo llegar a la OF en pocas horas. El pedido directo (al laboratorio) es el más lento."},
+{id:36,t:"Gestión y precios",q:"En productos no medicamentos no financiados por la Seguridad Social:",o:["No está prohibido hasta el 10 %","Solo se puede hacer descuento a grandes clientes","Se permite cualquier descuento","No está permitido hacer descuento"],a:2,e:"Para productos no medicamentos (parafarmacia, cosméticos) no financiados por el SNS, la farmacia puede aplicar cualquier descuento comercial, como cualquier otro establecimiento."},
+{id:37,t:"Gestión y precios",q:"Indique la respuesta correcta respecto a la fórmula del PUC:",o:["PUC = PVA – Dto + IVA","PUC = PVP – Dto + IVA + RE","PUC = PVL – Dto + IVA + RE","PUC = PVL – Dto + IVA"],a:2,e:"PUC (Precio Unitario de Compra) = PVL – Descuento + IVA + RE (Recargo de Equivalencia)."},
+{id:38,t:"Formulación Magistral",q:"La farmacia que encomienda elaborar una Fórmula Magistral a otra, ¿tiene que proporcionar la receta original?",o:["Sí, sólo si la receta es privada","Solo en fórmulas estériles (colirios, inyectables…)","Solo si hay alguna sustancia psicotrópica","No"],a:3,e:"No es necesario proporcionar la receta original a la farmacia elaboradora. La farmacia que encomienda guarda la receta original."},
+{id:39,t:"Fitoterapia",q:"La rinoconjuntivitis alérgica primaveral o fiebre del heno se debe a la alergia al:",o:["Pelo de animal","Ácaros","Polvo","Polen"],a:3,e:"La rinoconjuntivitis alérgica primaveral es una alergia estacional desencadenada por el polen. Las alergias a ácaros y pelo de animal son perennes (todo el año)."},
+{id:40,t:"Recetas",q:"Las recetas con leyenda 'DAR 40' pagan una aportación del:",o:["10 %","40 %","30 %","20 %"],a:1,e:"Las recetas DAR 40 corresponden a activos que trabajan. La aportación es del 40 % del PVP."},
+{id:41,t:"Gestión y precios",q:"Los productos dietoterápicos financiados por el SNS tienen sus precios incrementados en:",o:["4 % de IVA + 0,5 % de RE","21 % de IVA + 5,2 % de RE","10 % de IVA + 1,4 % de RE","10 % de IVA + 5,2 % de RE"],a:2,e:"Los productos dietoterápicos financiados tributan al IVA reducido del 10 % más el Recargo de Equivalencia del 1,4 %."},
+{id:42,t:"Indicación Farmacéutica",q:"Paciente que acude pidiendo algo para su dolor de estómago, ¿cómo actuamos?",o:["Le dispensamos un antiácido sin receta médica","Le recomendamos dieta blanda, hidratación y probióticos","Le preguntamos cuánto tiempo lleva con el dolor y qué síntomas tiene","Le derivamos al médico directamente porque puede tener otros problemas"],a:2,e:"Siempre hay que realizar una anamnesis: duración, intensidad, síntomas acompañantes. Solo con esa información se puede decidir si procede indicación farmacéutica o derivación."},
+{id:43,t:"Dispositivos inhalación",q:"¿Qué dispositivo es más eficaz cuando la capacidad respiratoria es menor de 20 L/min?",o:["Cartucho presurizado","Handihaler","Accuhaler","Turbuhaler"],a:0,e:"El cartucho presurizado (MDI) es el más adecuado para flujo inspiratorio muy bajo (<20 L/min) porque no requiere un gran flujo para activarse, especialmente si se usa con cámara espaciadora."},
+{id:44,t:"Nutrición",q:"¿A qué edad se deben introducir las verduras de hoja verde en la dieta del lactante?",o:["A partir de los 4 meses","A partir de los 6 meses","A partir de los 12 meses","A partir de los 9 meses"],a:2,e:"Las verduras de hoja verde (espinacas, acelgas) se introducen a partir de los 12 meses, ya que contienen nitratos que pueden causar metahemoglobinemia en lactantes menores."},
+{id:45,t:"Farmacología",q:"Señale cuál de estos medicamentos está indicado en el adenocarcinoma de próstata:",o:["Bicalutamida","Finasterida","Dutasterida","Silodosina"],a:0,e:"La Bicalutamida es un antiandrógeno indicado en el carcinoma de próstata avanzado. Finasterida y dutasterida son para hiperplasia benigna y silodosina es alfabloqueante."},
+{id:46,t:"Farmacología",q:"Señale cuál de estos principios activos NO es un ansiolítico benzodiazepínico:",o:["Zolpidem","Diazepam","Clorazepato dipotásico","Alprazolam"],a:0,e:"El Zolpidem es una imidazopiridina (fármaco Z), no una benzodiazepina, aunque actúa sobre el receptor GABA-A. Sus efectos son principalmente hipnóticos, no ansiolíticos."},
+{id:47,t:"Diabetes y valores",q:"Si una persona obtiene 18 en el test de Findrisk, ¿qué significa?",o:["Riesgo muy alto de padecer DM2 en 10 años","Riesgo bajo de padecer DM2 en 10 años","El test de Findrisk no tiene relación con la diabetes","Riesgo alto de padecer DM2 en 10 años"],a:0,e:"Una puntuación de 18 en Findrisk indica riesgo MUY ALTO: >1 de cada 2 personas desarrollará DM2 en 10 años. Rangos: <7 = bajo, 7-11 = ligeramente elevado, 12-14 = moderado, 15-20 = alto, >20 = muy alto."},
+{id:48,t:"Farmacología",q:"Una de las principales reacciones adversas del salbutamol es:",o:["Taquicardia","Estreñimiento","Disnea","Anosmia"],a:0,e:"El salbutamol (agonista beta-2) produce taquicardia por estimulación de receptores beta-1 cardíacos. También puede causar temblor y nerviosismo."},
+{id:49,t:"Formulación Magistral",q:"Una Oficina de Farmacia sin elaboración propia, ¿está obligada a dispensar una fórmula magistral?",o:["No","Solo en casos de receta de seguridad social","Solo en casos de urgencia","Sí"],a:3,e:"Todas las Oficinas de Farmacia están obligadas a dispensar fórmulas magistrales. Si no elaboran, deben encargar su elaboración a otra farmacia autorizada."},
+{id:50,t:"Atención Farmacéutica",q:"Uno de los objetivos del Servicio de Indicación Farmacéutica es:",o:["Establecer la continuación de tratamiento en patologías crónicas","Indicar al paciente la actitud más adecuada para resolver su problema de salud","Dispensar medicamentos sujetos a prescripción médica","Proponer cambios farmacoterapéuticos al médico"],a:1,e:"El objetivo de la Indicación Farmacéutica es orientar al paciente con un problema menor hacia la actitud más adecuada: OTC, medidas no farmacológicas o derivación al médico."},
+{id:51,t:"Recetas",q:"¿Cuánto tiempo deben guardarse en la farmacia las recetas privadas de antibióticos?",o:["Tres meses","Diez días","Dos años","Un mes"],a:0,e:"Las recetas privadas de antibióticos deben conservarse durante 3 meses en la Oficina de Farmacia."},
+{id:52,t:"Dispositivos inhalación",q:"¿Dónde hay que guardar la pluma de insulina que SE ESTÁ USANDO?",o:["Siempre a 0 ºC","En la nevera o en un lugar fresco y seco","En un cajón del cuarto de baño","Obligatoriamente en la nevera"],a:1,e:"La pluma en uso no debe guardarse en la nevera (el frío causa dolor en la inyección). Se conserva a temperatura ambiente en un lugar fresco y seco, lejos de la luz solar directa y del calor, máximo 4 semanas."},
+{id:53,t:"Dispositivos inhalación",q:"¿A qué se refiere el término 'Kwikpen' en la descripción de una insulina?",o:["Se trata del sistema de pinchazo de la pluma","Está relacionado con el laboratorio comercializador","Al porcentaje de insulina lenta frente a la rápida de la mezcla","Se trata de una insulina lenta"],a:0,e:"'KwikPen' hace referencia al tipo de dispositivo (pluma desechable) en el que viene la insulina. Es el nombre comercial del sistema de inyección de Eli Lilly."},
+{id:54,t:"Dispositivos inhalación",q:"El dispositivo Turbuhaler necesita un flujo inspiratorio de:",o:["30 l/min","60 l/min","100 l/min","40 l/min"],a:1,e:"El Turbuhaler requiere al menos 60 L/min para activarse correctamente. Es uno de los dispositivos que exige mayor esfuerzo inspiratorio."},
+{id:55,t:"Dispositivos inhalación",q:"¿Cómo se determina el volumen espiratorio forzado (FEV1)?",o:["Se realiza una toracoscopia","Se determina con un espirómetro","Se realiza un test de liberación de histamina","Se determina con un Spiromax"],a:1,e:"El FEV1 se mide mediante espirometría forzada con un espirómetro."},
+{id:56,t:"Dispositivos inhalación",q:"¿Qué efecto secundario puede presentar un paciente tratado con inhaladores con corticoides vía oral?",o:["Son todo ventajas","Micosis por una mala higiene bucal","Falta de coordinación en la técnica","Las respuestas b y c son correctas"],a:3,e:"Los inhaladores con corticoides pueden producir candidiasis oral por depósito en la mucosa oral, y la mala técnica genera falta de coordinación. Por eso se recomienda enjuagarse la boca tras cada uso."},
+{id:57,t:"Dispositivos inhalación",q:"¿Cuál de los siguientes dispositivos requiere una mayor capacidad pulmonar?",o:["Respimat","Ellipta","Turbuhaler","Cartucho presurizado"],a:2,e:"El Turbuhaler requiere mayor flujo inspiratorio (≥60 L/min), exigiendo mayor capacidad pulmonar. El cartucho presurizado requiere menos esfuerzo."},
+{id:58,t:"Recetas",q:"Con los medicamentos de aportación reducida, el usuario paga un 10 % de su valor, hasta un máximo de:",o:["4,36 €","4,25 €","4,24 €","4,50 €"],a:2,e:"Los medicamentos de aportación reducida tienen una aportación del 10 % del PVP, con un tope máximo de 4,24 € por envase."},
+{id:59,t:"Recetas",q:"¿Cómo se denomina el sistema de dispensación de receta electrónica privada?",o:["PENRe","REMPe","REPMe","REPPe"],a:1,e:"El sistema de dispensación de receta electrónica privada se denomina REMPe."},
+{id:60,t:"Estupefacientes",q:"¿Con qué periodicidad se realiza la declaración de medicamentos estupefacientes?",o:["Bimensualmente","Mensualmente","Semestralmente","Anualmente"],a:3,e:"La declaración de medicamentos estupefacientes ante el órgano competente se realiza anualmente."},
+{id:61,t:"Estupefacientes",q:"En el libro de contabilidad de estupefacientes NO deben anotarse:",o:["Fecha de dispensación","Salida por devolución","Salida por dispensación","Número de libro recetario"],a:3,e:"En el libro de contabilidad se anotan: entradas, salidas por dispensación, devoluciones y destrucción. El número de libro recetario NO se registra ahí."},
+{id:62,t:"Nutrición",q:"¿En qué condiciones se absorbe mejor el hierro?",o:["Con vitamina C","Con leche","Con alimentos","Con agua"],a:0,e:"La vitamina C aumenta la absorción del hierro no hemo reduciéndolo de Fe³⁺ a Fe²⁺ y formando complejos solubles. Los lácteos, fitatos y polifenoles la disminuyen."},
+{id:63,t:"Nutrición",q:"¿Cuál de los siguientes ácidos grasos posee efecto modulador de la inflamación?",o:["Triglicéridos de cadena media y larga (MCT/LCT)","Triglicéridos de cadena media (MCT)","Ácidos grasos omega-3","Ácidos grasos saturados"],a:2,e:"Los omega-3 (EPA y DHA) tienen acción antiinflamatoria al modular la producción de eicosanoides y citocinas proinflamatorias."},
+{id:64,t:"Gestión y precios",q:"El margen oficial en especialidades farmacéuticas en farmacia comunitaria es del:",o:["30 % para productos de PVL < 91,63","27,9 % para productos con PVL < 91,63","27,9 % para productos con PVL > 91,63","20 % para productos con PVL > 91,63"],a:1,e:"El margen oficial de la farmacia comunitaria es del 27,9 % para productos con PVL ≤ 91,63 €."},
+{id:65,t:"Gestión y precios",q:"El margen oficial de la distribución mayorista para Especialidades Farmacéuticas con PVL > 91,63 € está fijado:",o:["En 7,54 € por envase","En un 5,6 % sobre PVL","En 3,77 € por envase","En un 1 % fijo sobre PVP IVA"],a:0,e:"Para especialidades con PVL superior a 91,63 €, el margen del mayorista es fijo: 7,54 € por envase."},
+{id:66,t:"Gestión y precios",q:"¿Cuál es la fórmula utilizada para determinar el margen comercial en % de un producto?",o:["% Margen = 100 × (PVP IVA − PUC IVA RE) / PVP IVA","PVP con IVA − PCoste IVA RE","% Margen = 100 × (PVP IVA + PUC IVA RE) / PVP IVA","Coste c/IVA × 1,6"],a:0,e:"% Margen = [(PVP IVA − PUC IVA RE) / PVP IVA] × 100. El PUC incluye IVA y Recargo de Equivalencia."},
+{id:67,t:"Gestión y precios",q:"Indica cuál es la afirmación verdadera respecto a los precios:",o:["PVP mayor que PVF mayor que PVL","PVP menor que PVF menor que PVL","PVP menor que PVL menor que PVF","PVP menor que PVF menor que PVL"],a:0,e:"La cadena de precios es: PVL (laboratorio) < PVF (mayorista) < PVP (público con IVA). Por tanto PVP > PVF > PVL."},
+{id:68,t:"Recetas",q:"Los pacientes con recetas de MUFACE deben pagar una aportación del:",o:["40 %","30 %","50 %","10 %"],a:1,e:"Los funcionarios civiles del Estado con recetas MUFACE tienen una aportación del 30 % del PVP."},
+{id:69,t:"Recetas",q:"¿Cuál de las siguientes prescripciones en receta MUFACE en papel NO podríamos dispensar?",o:["Dos envases de Alopurinol 300 mg, 30 comp","Dos envases de Amoxicilina 500 mg, 20 comp (Excepción)","Un envase de Bromazepam 3 mg, 30 cap","Un envase de Isotretinoína a una mujer de 30 años"],a:0,e:"En receta MUFACE en papel solo se puede dispensar un envase por receta salvo excepciones establecidas. Dos envases de Alopurinol 300 mg sin ser excepción no se pueden dispensar."},
+{id:70,t:"Recetas",q:"¿Por qué medicamentos sustituirías un Ventolin inhalador?",o:["Es un medicamento que NO se puede sustituir","Por un Salbutamol EFG","Por un Ventolin solución para inhalación","Por cualquier inhalador que lleve idéntica composición"],a:0,e:"Los medicamentos inhaladores NO pueden sustituirse libremente por otro de diferente dispositivo aunque tengan el mismo principio activo, ya que cada dispositivo tiene diferente técnica de inhalación y depósito pulmonar."},
+{id:71,t:"Indicación Farmacéutica",q:"Señale el medicamento para Indicación Farmacéutica en caso de tos seca en adulto sin otro problema de salud:",o:["Ciprofloxacino","Codeína","Dextrometorfano","Acetilcisteína"],a:2,e:"El dextrometorfano es el antitusivo OTC de elección para tos seca. La codeína requiere receta, el ciprofloxacino es antibiótico y la acetilcisteína es mucolítico (tos productiva)."},
+{id:72,t:"Estupefacientes",q:"En el libro recetario NO es necesario apuntar la dispensación de:",o:["Medicamentos de Especial Control Médico","Medicamentos de uso humano para animales","Medicamentos Psicótropos","Fórmulas magistrales"],a:0,e:"En el libro recetario se anotan estupefacientes, psicótropos y medicamentos de uso humano para animales. Los de Especial Control Médico no se registran en el libro recetario."},
+{id:73,t:"Recetas",q:"¿Cuál NO necesita receta médica para su dispensación?",o:["Nuvaring","Paracetamol 1 g 40 comp","Dretine 3×21 comp","Norlevo 1,5 mg (Píldora del día después)"],a:3,e:"La Norlevo (levonorgestrel 1,5 mg, píldora del día después) no requiere receta médica en España y puede dispensarse directamente en la farmacia."},
+{id:74,t:"Formulación Magistral",q:"¿Cuánto tiempo hay que guardar la Guía de Elaboración y control de una fórmula magistral?",o:["El tiempo que la farmacia estime conveniente","3 meses","En principio, 1 año después de la fecha de caducidad de la fórmula","2 años"],a:2,e:"La Guía de Elaboración y Control debe conservarse 1 año después de la fecha de caducidad de la fórmula, salvo normativa específica."},
+{id:75,t:"Recetas",q:"¿Frente a qué medicamento es necesario presentar receta médica?",o:["Frenadol 10 sobres","Almax forte 24 sobres","Ibudol 400 mg 20 comprimidos","Enema Casen 250 ml"],a:3,e:"El Enema Casen (fosfato sódico) requiere receta. Frenadol, Almax forte e Ibudol 400 mg son OTC y no necesitan receta."},
+{id:76,t:"Recetas",q:"¿Cuál es el periodo de validez de las recetas de los medicamentos?",o:["10 días, excepto isotretinoínas en mujeres (7 días) y extractos de alérgenos (3 meses)","Un mes en todos los casos","Un mes, excepto isotretinoínas en mujeres (7 días) y extractos de alérgenos (3 meses)","10 días en todos los casos"],a:0,e:"La validez estándar de una receta es 10 días. Excepciones: isotretinoínas en mujeres (7 días) y extractos de alérgenos (3 meses)."},
+{id:77,t:"Investigación científica",q:"En la introducción de un trabajo científico, indique cuál es la respuesta correcta:",o:["No es necesario establecer citas bibliográficas pues aún no se han obtenido resultados","Es donde se mencionan las ayudas obtenidas para la realización del estudio","Es donde se resume la totalidad del trabajo y se definen las conclusiones","Es donde se exponen los antecedentes del problema, el por qué y para qué se hace el trabajo"],a:3,e:"La introducción expone el estado del conocimiento (antecedentes), justifica el estudio (por qué) y define sus objetivos (para qué). Las ayudas van en agradecimientos y el resumen en el abstract."},
+{id:78,t:"Investigación científica",q:"Las palabras clave de un artículo científico hacen referencia a:",o:["Conjunto de 3 a 10 palabras o frases cortas relacionadas con el contenido del artículo","Son las citas bibliográficas más relevantes del artículo","Es el título resumido del trabajo","Es un breve resumen de las conclusiones del artículo"],a:0,e:"Las palabras clave son 3-10 términos que describen los conceptos más importantes del artículo, utilizados para su indexación en bases de datos."},
+{id:79,t:"Investigación científica",q:"¿Cuál de estas características define una buena discusión en un trabajo científico?",o:["Buena redacción","Escrita en tiempo pasado","Rigor","No debe contener citas bibliográficas"],a:2,e:"El rigor científico es fundamental en la discusión: interpretar resultados con rigor, compararlos con la literatura y exponer las limitaciones con honestidad."},
+{id:80,t:"Investigación científica",q:"¿Qué recomendaciones se deben seguir a la hora de poner el título de un trabajo?",o:["Que esté redactado en pasado","Que no sea demasiado largo","Que cumpla con los criterios Vancouver","Que incluya las conclusiones"],a:1,e:"El título debe ser conciso, descriptivo del contenido, sin abreviaturas e informativo."},
+{id:81,t:"Investigación científica",q:"¿Qué parámetro estadístico nos da información sobre la precisión de un estudio científico?",o:["La desviación estándar","El porcentaje de individuos que cumplen una característica","El intervalo de confianza","La media aritmética"],a:2,e:"El intervalo de confianza indica la precisión de una estimación: el rango de valores donde se encuentra el verdadero valor de la población con determinada probabilidad (usualmente 95 %)."},
+{id:82,t:"Farmacología",q:"Un efecto secundario de los IECAs es:",o:["Dolor de cabeza","Problemas digestivos","Tos irritativa","Sudoración"],a:2,e:"La tos seca e irritativa es el efecto adverso más frecuente y característico de los IECAs, producida por la acumulación de bradicinina en las vías respiratorias."},
+{id:83,t:"Farmacología",q:"¿Cuál es el efecto secundario de más riesgo para la salud de los anticonceptivos orales en una mujer que fuma?",o:["Accidentes tromboembólicos","Ganancia de peso","Mareos","Dolor de cabeza"],a:0,e:"El tabaco potencia el riesgo tromboembólico de los anticonceptivos orales con estrógenos. Las fumadoras mayores de 35 años tienen contraindicados los anticonceptivos con estrógenos."},
+{id:84,t:"Farmacología",q:"¿Cuándo se usa el glucagón?",o:["Como anticoagulante","Para evitar un embarazo","En caso de una hiperglucemia","En caso de una hipoglucemia"],a:3,e:"El glucagón se usa en el tratamiento de emergencia de la hipoglucemia grave, cuando el paciente no puede tomar glucosa por vía oral. Estimula la glucogenólisis hepática."},
+{id:85,t:"Farmacología",q:"La eficacia de los anticonceptivos se pierde, con riesgo de embarazo, cuando se toman:",o:["Anticatarrales","Antihipertensivos","Antibióticos orales","Analgésicos"],a:2,e:"Los antibióticos orales de amplio espectro pueden reducir la flora intestinal que reabsorbe el etinilestradiol excretado por la bilis, disminuyendo su absorción y eficacia anticonceptiva."},
+{id:86,t:"Farmacología",q:"¿Cuál de los siguientes no es un antihistamínico?",o:["Cetirizina","Metilfenidato","Clorfenamina","Bilantina"],a:1,e:"El metilfenidato es un estimulante del SNC para el TDAH. Los demás (cetirizina, clorfenamina, bilantina) son antihistamínicos H1."},
+{id:87,t:"Farmacología",q:"Señale cuál de estas es una contraindicación del enalapril:",o:["Embarazo","HTA","Úlcera duodenal","Estreñimiento"],a:0,e:"El embarazo es la principal contraindicación absoluta de los IECAs. Son teratogénicos en el 2.º y 3.er trimestre (daño renal fetal, oligohidramnios)."},
+{id:88,t:"Farmacología",q:"¿Qué recomendaciones daríamos a un paciente con estatinas al que se administra un antibiótico macrólido?",o:["El antibiótico por la mañana y la estatina por la noche","Con un intervalo de dos horas","Que lo tomen a la misma hora","Suspender el tratamiento con estatinas durante el antibiótico"],a:0,e:"Los macrólidos inhiben el CYP3A4, aumentando los niveles de muchas estatinas y el riesgo de miopatía. Se recomienda separar la toma: antibiótico por la mañana y estatina por la noche."},
+{id:89,t:"Vacunación",q:"Según el calendario de vacunación infantil, a los 15 meses de vida se debe vacunar de:",o:["Hepatitis B","Varicela","Sarampión","Difteria"],a:1,e:"A los 15 meses se administra la segunda dosis de la vacuna de la varicela (la primera a los 12 meses) según el calendario de vacunación actual en España."},
+{id:90,t:"Farmacología",q:"Un efecto adverso muy frecuente del tratamiento con interferón en la esclerosis múltiple es:",o:["Tos","Síndrome pseudogripal","Ansiedad","Pérdida de peso"],a:1,e:"El síndrome pseudogripal (fiebre, escalofríos, mialgias, cefalea) es el efecto adverso más frecuente del interferón beta en EM, especialmente al inicio del tratamiento."},
+{id:91,t:"Farmacología",q:"¿Cuál de los siguientes fármacos se utiliza para el tratamiento de la esclerosis múltiple?",o:["Tenofovir","Darbepoetina","Teriflunomida","Adalimumab"],a:2,e:"La Teriflunomida es un inmunomodulador oral para esclerosis múltiple remitente-recurrente. Tenofovir es para VIH/VHB, darbepoetina para anemia y adalimumab para enfermedades inflamatorias."},
+{id:92,t:"Farmacología",q:"¿Cuál es inhibidor de la transcriptasa inversa análogo de nucleósido (ITIAN)?",o:["Efavirenz","Nevirapina","Fisaprenavir","Zidovudina"],a:3,e:"La Zidovudina (AZT) es un ITIAN. Efavirenz y nevirapina son ITINN (no análogos) y fisaprenavir es un inhibidor de la proteasa."},
+{id:93,t:"Farmacología",q:"¿Cuáles de los siguientes medicamentos se pueden utilizar tanto en el tratamiento del VIH como del VHB?",o:["Sofosbuvir/ledispasvir (Haroni)","Ribavirina","Tenofovir (Truvada)","Darunavir (Prezista)"],a:2,e:"El Tenofovir (Truvada) es activo frente al VIH y al virus de la hepatitis B, siendo fármaco de elección en coinfectados VIH/VHB."},
+{id:94,t:"Farmacología",q:"¿Cuál de los siguientes medicamentos se utiliza en el tratamiento del cáncer de mama HER2+?",o:["Rituximab","Abiraterona","Lenalidomida","Trastuzumab"],a:3,e:"El Trastuzumab es un anticuerpo monoclonal anti-HER2 para cáncer de mama HER2 positivo. Rituximab es para linfomas, abiraterona para cáncer de próstata y lenalidomida para mieloma."},
+{id:95,t:"Farmacología",q:"La administración conjunta de anticonceptivos orales con penicilinas:",o:["Nunca interaccionan","Pueden provocar el fracaso del anticonceptivo","Se potencia la acción del anticonceptivo","Se pueden utilizar siempre"],a:1,e:"Las penicilinas pueden reducir la flora intestinal que reabsorbe el etinilestradiol excretado por la bilis, disminuyendo su eficacia anticonceptiva. Se recomienda usar método anticonceptivo adicional."},
+{id:96,t:"Farmacología",q:"¿Cuál de los siguientes NO interacciona en la absorción de las tetraciclinas?",o:["Calcio","Hierro","Eutirox","Fármacos que modifican el pH intestinal"],a:2,e:"El Eutirox (levotiroxina) no interfiere en la absorción de las tetraciclinas. El calcio, hierro y antiácidos forman quelatos o alteran la ionización de las tetraciclinas, disminuyendo su absorción."},
+{id:97,t:"Indicación Farmacéutica",q:"¿Qué NO recomendarías a un paciente con los ojos rojos y abundante legaña?",o:["Lavados con suero fisiológico","Acudir al médico","Evitar el uso prolongado de dispositivos electrónicos","Usar un colirio a base de corticoide y antibiótico"],a:3,e:"Un colirio con corticoide y antibiótico requiere prescripción y no debe dispensarse sin diagnóstico. Los ojos rojos con legaña pueden tener distintas causas que requieren tratamiento específico."},
+{id:98,t:"Indicación Farmacéutica",q:"Un paciente asmático acude con receta de Terbasmin Turbuhaler. ¿Qué es lo primero que haría?",o:["Aconsejarle el uso de un anticolinérgico a la vez","Preguntarle si es para él y si es la primera vez que lo usa","Recomendarle que se lave la boca después de cada uso","Enseñarle a usarlo"],a:1,e:"Lo primero en la dispensación es identificar al paciente (¿es para usted?) y verificar si es nuevo en el tratamiento. Si es la primera vez, se explica la técnica correcta del Turbuhaler."},
+{id:99,t:"Indicación Farmacéutica",q:"Un individuo acude a la farmacia con los ojos irritados por lejía. ¿Qué se debe hacer?",o:["Recomendarle un colirio vasoconstrictor","Remitirle al médico","Recomendarle que los lave con agua abundante","Recomendarle que se tape los ojos"],a:1,e:"La exposición ocular a lejía (álcali cáustico) es urgencia oftalmológica. El paciente debe ser remitido urgentemente al médico/urgencias para valoración y tratamiento especializado."},
+{id:100,t:"Indicación Farmacéutica",q:"Señale en cuál de los siguientes casos NO sería necesario derivar al médico en la Indicación Farmacéutica:",o:["La paciente está embarazada y presenta estreñimiento","La paciente está en periodo de lactancia y presenta una crisis asmática","El paciente presenta un cuadro catarral común hace 2 días sin otros problemas","El paciente ya ha utilizado medicamento OTC sin beneficio para tos persistente >30 días"],a:2,e:"Un cuadro catarral de 2 días sin otros problemas es proceso menor manejable con IF. El embarazo, la lactancia y la falta de respuesta tras 30 días son criterios de derivación médica."},
+{id:101,t:"Farmacología",q:"¿Qué efecto se produce al administrar conjuntamente codeína con un mucolítico?",o:["Diarreas","Obstrucción pulmonar: aumento de secreciones e inhibición del reflejo de la tos","La codeína producirá vómitos","El paciente mejora rápidamente"],a:1,e:"Combinar codeína (inhibe el reflejo de la tos) con un mucolítico (aumenta las secreciones) es paradójico: las secreciones se acumulan en las vías respiratorias, pudiendo causar obstrucción pulmonar."},
+{id:102,t:"Indicación Farmacéutica",q:"¿Qué recomendarías a una persona hipertensa para el dolor de cabeza?",o:["Ácido acetil salicílico 500 mg","Paracetamol 1 g","Ibuprofeno 400 mg","Metamizol 575 mg"],a:1,e:"El paracetamol es el analgésico de elección en hipertensos porque no afecta la presión arterial ni interacciona con antihipertensivos. Los AINEs pueden aumentar la PA."},
+{id:103,t:"Fitoterapia",q:"Paciente con levotiroxina que pide consejo para perder peso. ¿Qué planta NO puedes recomendarle?",o:["Eleuterococo","Té verde","Fucus","Garcinia"],a:2,e:"El Fucus vesiculosus contiene yodo natural que puede interferir con la levotiroxina y alterar la función tiroidea. Contraindicado en pacientes con patología tiroidea."},
+{id:104,t:"Fitoterapia",q:"¿Cuál de las siguientes plantas se usa como hipotenso y diurético?",o:["Harpagofito","Olivo","Cáscara sagrada","Castaño de Indias"],a:1,e:"Las hojas de olivo tienen propiedades hipotensoras y diuréticas. El harpagofito es antiinflamatorio, la cáscara sagrada es laxante y el castaño de Indias es venotónico."},
+{id:105,t:"Farmacología",q:"En qué situación la acetilcisteína NO estaría indicada:",o:["Asma","Desintoxicación de paracetamol","Fatiga pulmonar","Bronquitis"],a:0,e:"La acetilcisteína está contraindicada en el asma porque puede desencadenar broncoespasmo. Es útil en intoxicación por paracetamol (IV), bronquitis y otras patologías con hipersecreción."},
+{id:106,t:"Farmacología",q:"¿Cuál de los siguientes no se utiliza en tos seca?",o:["Sekisan (Cloperastina)","Flutox (Cloperastina)","Flumucil (Acetilcisteína)","Propalcof (Dextrometorfano)"],a:2,e:"Flumucil (acetilcisteína) es un mucolítico para tos productiva, no seca. Los demás (cloperastina, dextrometorfano) son antitusivos indicados en tos seca."},
+{id:107,t:"Investigación científica",q:"Señale cuál de las afirmaciones sobre los ensayos clínicos de fase IV es FALSA:",o:["Son ensayos que se realizan una vez comercializado el fármaco","Deben ser controlados y aleatorizados","Tienen como objetivo verificar eficacia y/o seguridad a largo plazo","No necesitan ser aprobados por los comités éticos"],a:3,e:"FALSO: Los ensayos de fase IV también necesitan aprobación del comité ético. Son estudios postautorización que evalúan eficacia y seguridad a largo plazo en condiciones reales."},
+{id:108,t:"Investigación científica",q:"En un ensayo clínico, adscribir un paciente a un grupo terapéutico basándose en el azar se denomina:",o:["Enmascaramiento","Randomización","Uso de placebo","Supresión de sesgos"],a:1,e:"La randomización (aleatorización) es la asignación al azar a los grupos de tratamiento, para evitar sesgos de selección y garantizar la comparabilidad entre grupos."},
+{id:109,t:"Hospital",q:"¿Cuál es la dependencia funcional del Servicio de Farmacia Hospitalaria?",o:["Es un servicio central dependiente de la dirección médica","Es un servicio general clínico dependiente de la dirección de compras","Es un servicio médico-quirúrgico dependiente de la Dirección Gerencial","Es un servicio clínico que depende de la dirección de gestión"],a:0,e:"El Servicio de Farmacia Hospitalaria es un servicio central dependiente funcionalmente de la dirección médica del hospital."},
+{id:110,t:"Hospital",q:"El 'stock de alerta' de un medicamento en la Farmacia Hospitalaria es:",o:["El nivel mínimo de existencias de un producto","El nivel máximo de existencias","Número de existencias de seguridad","Cantidad de producto que indica que se debe cursar un nuevo pedido"],a:3,e:"El stock de alerta (punto de pedido) es la cantidad que, al alcanzarse, indica que hay que realizar un nuevo pedido para evitar la rotura de stock."},
+{id:111,t:"Hospital",q:"¿Cuál de los siguientes medicamentos no se puede dispensar en oficina de farmacia?",o:["Lamivudina","Paromomicina","Penicilina","Amoxicilina"],a:0,e:"La Lamivudina (antirretroviral) es un medicamento de uso hospitalario que solo puede dispensarse en el servicio de farmacia hospitalaria."},
+{id:112,t:"Hospital",q:"La cabina de flujo laminar vertical se sitúa:",o:["Dentro de la sala limpia","En el área de acondicionamiento","En la antesala","En un área cercano a la zona limpia"],a:0,e:"La cabina de flujo laminar vertical se sitúa dentro de la sala limpia del laboratorio de citostáticos, protegiendo tanto al producto como al operador."},
+{id:113,t:"Hospital",q:"El orden de adición de los componentes en la elaboración de una nutrición parenteral es:",o:["De menor a mayor volumen","Electrolitos, lípidos, vitaminas, aminoácidos, HdC, oligoelementos, insulina, heparina, Ca","Aminoácidos, hidratos de carbono, electrolitos (P, K, Na, Mg), oligoelementos, insulina, heparina, calcio, lípidos, vitaminas","Lo primero son los lípidos para evitar la rotura de fases"],a:2,e:"Orden correcto: primero aminoácidos y glucosa, luego electrolitos (el calcio y fosfato se añaden por separado para evitar precipitados), oligoelementos, vitaminas e insulina, y finalmente los lípidos."},
+{id:114,t:"Recetas",q:"¿Cuánto tiempo deben guardarse en la farmacia las recetas veterinarias de medicamentos de uso humano?",o:["2 años","3 meses","5 años","15 meses"],a:2,e:"Las recetas de medicamentos de uso humano utilizados para animales deben guardarse 5 años en la farmacia."},
+{id:115,t:"Recetas",q:"Según el código de la receta, ¿qué usuarios NO están exentos de aportación?",o:["SDTX","TSI001","CAMP003","ATEP"],a:2,e:"CAMP003 corresponde a los activos de campaña (trabajadores agrarios eventuales), que NO están exentos de aportación. SDTX (síndrome tóxico), TSI001 (pensionistas) y ATEP (accidente de trabajo) sí están exentos."},
+{id:116,t:"Gestión y precios",q:"¿Cuál de las siguientes afirmaciones es cierta sobre precios y descuentos en farmacia?",o:["En las Especialidades Publicitarias se permite un descuento de hasta el 10 %","Los medicamentos tienen IVA del 4 % excepto las especialidades publicitarias con IVA del 10 %","Los dietoterápicos y efectos y accesorios financiados no tienen precio oficial","Cuando un producto tiene IVA del 21 % se añade un Recargo de Equivalencia del 1,4 %"],a:0,e:"En las Especialidades Publicitarias (medicamentos OTC de automedicación) se permite un descuento de hasta el 10 % sobre el PVP."},
+{id:117,t:"Diabetes y valores",q:"¿Qué se considera un resultado de glucemia basal de 129 mg/dl en un individuo no diabético sano?",o:["Valor normal","Prediabetes","Diabetes","Bajo"],a:2,e:"Glucemia basal ≥ 126 mg/dl en ayunas en dos ocasiones indica Diabetes mellitus. Entre 100-125 mg/dl es prediabetes. < 100 mg/dl es normal."},
+{id:118,t:"Diabetes y valores",q:"Una persona se hace la glucemia basal por 1.ª vez y obtiene 160 mg/dl. ¿Qué se le debe recomendar?",o:["Que tome acto seguido un hipoglucemiante oral","Que se tome la tensión","Repetir la prueba al cabo de 7 días","Que acuda a urgencias sanitarias rápidamente"],a:2,e:"Un resultado de 160 mg/dl en primera medida debe confirmarse repitiendo la prueba al cabo de 7 días. Solo con dos resultados positivos se diagnostica diabetes."},
+{id:119,t:"Formulación Magistral",q:"Al elaborar un Preparado Oficial (P.O.) por lotes, ¿cuánto tiempo ha de guardarse una muestra después de su caducidad?",o:["6 meses","3 meses","No se guarda","1 año"],a:3,e:"Tras la caducidad de un Preparado Oficial elaborado por lotes debe guardarse una muestra durante 1 año para poder realizar controles de calidad retrospectivos."},
+{id:120,t:"Indicación Farmacéutica",q:"En un caso de indicación, el paciente lleva 3 semanas con tos persistente y ya ha utilizado 2 antitusígenos sin resultado. ¿Qué opción es correcta?",o:["Le recomendamos que tome paracetamol","Seguramente será debido al enalapril, no hay que intervenir","Le aconsejamos que no tome más antitusígenos pues se solucionará espontáneamente","Se trata de un motivo claro de derivación al médico"],a:3,e:"Una tos persistente de 3 semanas que no responde a 2 antitusígenos es criterio claro de derivación al médico (puede indicar causa subyacente: EPOC, neoplasia, efecto de medicamento, etc.)."}
+];
+
+// ─── STATE ───────────────────────────────────────────────
+let allQ = [...QUESTIONS];
+let filtered = [];
+let current = 0;
+let answered = {};  // id → 'ok' | 'ko'
+let chosen   = {};  // id → option index
+
+// ─── HELPERS ─────────────────────────────────────────────
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function getTopics() {
+  return [...new Set(QUESTIONS.map(q => q.t))].sort();
+}
+
+function tagClass(topic) {
+  const map = {
+    'Formulación Magistral': 'Formulación',
+    'Fitoterapia': 'Fitoterapia',
+    'Indicación Farmacéutica': 'Indicación',
+    'Recetas': 'Recetas',
+    'Farmacología': 'Farmacología',
+    'Gestión y precios': 'Gestión',
+    'Dispositivos inhalación': 'Dispositivos',
+    'Atención Farmacéutica': 'Atención',
+    'Estupefacientes': 'Estupef',
+    'Nutrición': 'Nutrición',
+    'Investigación científica': 'Investig',
+    'Hospital': 'Hospital',
+    'Comunicación': 'Comunic',
+    'Diabetes y valores': 'Diabetes',
+    'Vacunación': 'Vacunac',
+    'Farmacovigilancia': 'Farmacovig'
+  };
+  return 'tag-' + (map[topic] || 'default');
+}
+
+// ─── RENDER ──────────────────────────────────────────────
+function updateStats() {
+  const ok = Object.values(answered).filter(v => v === 'ok').length;
+  const ko = Object.values(answered).filter(v => v === 'ko').length;
+  const done = ok + ko;
+  document.getElementById('hs-ok').textContent = ok;
+  document.getElementById('hs-ko').textContent = ko;
+  document.getElementById('hs-pct').textContent = done > 0 ? Math.round(ok / done * 100) + ' %' : '—';
+  const total = filtered.length;
+  const fdone = filtered.filter(q => answered[q.id] !== undefined).length;
+  document.getElementById('prog').style.width = total > 0 ? (fdone / total * 100) + '%' : '0%';
+}
+
+function render() {
+  updateStats();
+  const qa = document.getElementById('qa');
+  const nav = document.getElementById('nav-bar');
+
+  if (filtered.length === 0) {
+    qa.innerHTML = `<div class="empty-state">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <p>No hay preguntas para este filtro.</p>
+    </div>`;
+    nav.style.display = 'none';
+    return;
+  }
+
+  nav.style.display = 'flex';
+  const q = filtered[current];
+  const state = answered[q.id];
+  const done = state !== undefined;
+  const letters = ['A', 'B', 'C', 'D', 'E'];
+
+  const optsHtml = q.o.map((opt, i) => {
+    let cls = 'opt-btn';
+    let letterCls = 'opt-letter';
+    if (done) {
+      if (i === q.a) cls += ' correct';
+      else if (chosen[q.id] === i && state === 'ko') cls += ' wrong';
+    }
+    return `<button class="${cls}" onclick="answer(${q.id}, ${i})" ${done ? 'disabled' : ''}>
+      <span class="${letterCls}">${letters[i]}</span>
+      <span>${opt}</span>
+    </button>`;
+  }).join('');
+
+  let fbHtml = '';
+  if (done) {
+    const ok = state === 'ok';
+    fbHtml = `<div class="feedback ${ok ? 'ok' : 'ko'}">
+      <div class="feedback-title">
+        ${ok
+          ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Correcto'
+          : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Incorrecto'
+        }
+      </div>
+      ${q.e}
+    </div>`;
+  }
+
+  qa.innerHTML = `<div class="q-card">
+    <div class="q-meta">
+      <span class="q-num">Pregunta ${current + 1} de ${filtered.length}</span>
+      <span class="q-dot"></span>
+      <span class="q-tag ${tagClass(q.t)}">${q.t}</span>
+    </div>
+    <div class="q-text">${q.q}</div>
+    <div class="options">${optsHtml}</div>
+    ${fbHtml}
+  </div>`;
+
+  document.getElementById('nav-pos').textContent = `${current + 1} / ${filtered.length}`;
+  document.getElementById('btn-prev').disabled = current === 0;
+  document.getElementById('btn-next').disabled = current === filtered.length - 1;
+}
+
+// ─── ACTIONS ─────────────────────────────────────────────
+function answer(id, choice) {
+  if (answered[id] !== undefined) return;
+  const q = QUESTIONS.find(x => x.id === id);
+  chosen[id] = choice;
+  answered[id] = choice === q.a ? 'ok' : 'ko';
+  render();
+}
+
+function navigate(dir) {
+  current = Math.max(0, Math.min(filtered.length - 1, current + dir));
+  render();
+}
+
+function applyFilter() {
+  const topic = document.getElementById('topic-sel').value;
+  filtered = topic === 'all' ? [...allQ] : allQ.filter(q => q.t === topic);
+  current = 0;
+  render();
+}
+
+// ─── INIT ────────────────────────────────────────────────
+(function init() {
+  const sel = document.getElementById('topic-sel');
+  const all = document.createElement('option');
+  all.value = 'all';
+  all.textContent = 'Todos los temas';
+  sel.appendChild(all);
+
+  getTopics().forEach(t => {
+    const o = document.createElement('option');
+    o.value = t;
+    o.textContent = t;
+    sel.appendChild(o);
+  });
+
+  sel.addEventListener('change', applyFilter);
+
+  document.getElementById('btn-shuffle').addEventListener('click', () => {
+    shuffle(allQ);
+    applyFilter();
+  });
+
+  document.getElementById('btn-reset').addEventListener('click', () => {
+    answered = {};
+    chosen = {};
+    allQ = [...QUESTIONS];
+    document.getElementById('topic-sel').value = 'all';
+    applyFilter();
+  });
+
+  document.getElementById('btn-prev').addEventListener('click', () => navigate(-1));
+  document.getElementById('btn-next').addEventListener('click', () => navigate(1));
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   navigate(-1);
+    const q = filtered[current];
+    if (q && answered[q.id] === undefined) {
+      const keys = {'1':0,'2':1,'3':2,'4':3,'a':0,'b':1,'c':2,'d':3};
+      if (keys[e.key.toLowerCase()] !== undefined) answer(q.id, keys[e.key.toLowerCase()]);
+    }
+  });
+
+  applyFilter();
+})();
+</script>
+</body>
+</html>
